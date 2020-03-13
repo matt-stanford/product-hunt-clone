@@ -19,3 +19,5 @@ class Product(models.Model):
 
     def summary(self):
         return self.body[:100]
+
+    objects = models.Manager()
