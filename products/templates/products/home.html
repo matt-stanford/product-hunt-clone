@@ -4,4 +4,28 @@
 
 <h1>Home!</h1>
 
+{% if products %}
+    {% for product in products.all %}
+        <div class="card" onclick="window.location='{% url 'detail' product.id %}';" style="cursor: pointer;">
+            <div class="row">
+                <div class="col-2">
+                    <img src="{{ product.icon.url }}" class="img-fluid p-2" alt="...">
+                </div>
+                <div class="col-8">
+                    <h5 class="card-title">{{ product.title }}</h5>
+                    <p class="card-text">{{ product.summary }}</p>
+                </div>
+                <div class="col-2">
+                    <a href="javascript:{document.getElementById('upvote{{product.id}}').submit()}"><button class="btn btn-info mx-auto"><i class="fas fa-caret-up"></i> Upvote {{ product.votes_total }}</button></a>
+                </div>
+            </div>
+        </div>
+
+        <form id="upvote{{product.id}}" method="POST" action="{% url 'upvote' product.id %}">
+            {% csrf_token %}
+            <input type="hidden">
+        </form>
+    {% endfor %}
+{% endif %}
+
 {% endblock %}
